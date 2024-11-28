@@ -1,17 +1,49 @@
 <?php
 session_start();
 
-try {
-    $pdo = new PDO("mysql:host=127.0.0.1;port=3306;dbname=oficina", "root", "1234");
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    echo "Erro: " . $e->getMessage();
-    exit; // Encerra o script se não conseguir conectar
+function loadEnv($filePath)
+{
+    if (!file_exists($filePath)) {
+        return false; // Arquivo .env não encontrado
+    }
+
+    $lines = file($filePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    foreach ($lines as $line) {
+        if (strpos(trim($line), '#') === 0) {
+            continue; // Ignorar comentários
+        }
+        [$name, $value] = explode('=', $line, 2);
+        $name = trim($name);
+        $value = trim($value);
+
+        if (!array_key_exists($name, $_ENV)) {
+            $_ENV[$name] = $value; // Define no array global $_ENV
+        }
+    }
+    return true;
 }
 
+// Carregar o arquivo .env (se existir)
+loadEnv(_DIR_ . '/.env');
+
+// Definir as variáveis de conexão
+$dbHost = 'srv1661.hstgr.io';
+$dbPort = '3306';
+$dbName = 'u731628274_BdOficina';
+$dbUser = 'u731628274_jcoficina';
+$dbPass = '010404Arthur';
+
+// Configuração da conexão com o banco de dados
+try {
+    $pdo = new PDO("mysql:host=$dbHost;port=$dbPort;dbname=$dbName", $dbUser, $dbPass);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    echo "Erro ao conectar ao banco de dados: " . $e->getMessage();
+    exit;
+}
 
 // Configuração de CORS e cabeçalhos de resposta
-header("Access-Control-Allow-Origin: http://localhost:3000");
+header("Access-Control-Allow-Origin: darkseagreen-mule-233162.hostingersite.com");
 header("Access-Control-Allow-Methods: POST, OPTIONS, GET, DELETE");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json");
@@ -26,6 +58,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 // Define a URI atual
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
+// Remove subfolder /api from the URI
+$uri = substr($uri, 4);
+
 // Gerenciamento de rotas e métodos
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     if ($uri == '/comentarios') {
@@ -36,7 +71,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         checkAdmin();
     } else {
         http_response_code(404);
-        echo json_encode(['status' => 'erro', 'mensagem' => 'Rota não encontrada']);
+        //echo json_encode(['status' => 'erro', 'mensagem' => 'Rota']);
+        echo $uri;
     }
 } elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($uri == '/comentarios') {
@@ -125,7 +161,7 @@ function getComentario() {
 function criarServico() {
     global $pdo;
 
-    $uploadDir = __DIR__ . '/uploads/';
+    $uploadDir = _DIR_ . '/uploads/';
     if (!is_dir($uploadDir)) {
         mkdir($uploadDir, 0777, true);
     }
@@ -435,15 +471,4 @@ function editarServico($id) {
         echo json_encode(['status' => 'erro', 'mensagem' => 'Erro ao atualizar o serviço: ' . $e->getMessage()]);
     }
 }
-
-
-    
-
-
-
-
-
-
-
-
 ?>
