@@ -13,10 +13,6 @@ export default function StickySection() {
         localStorage.setItem("adminLoggedIn", "false");
     };
 
-    const handleLogin = () => {
-        setAdminLoggedIn(true); // Define admin como verdadeiro ao fazer login
-        localStorage.setItem("adminLoggedIn", "true");
-    };
 
     useEffect(() => {
         // Acessa o localStorage apenas no lado do cliente
@@ -51,7 +47,6 @@ export default function StickySection() {
                     </button>
                 ) : (
                     <button className="border-red-600 border-2 w-44 rounded"
-                        onClick={handleLogin}
                     >
                         <Link href="/login">LOGIN</Link>
                     </button>

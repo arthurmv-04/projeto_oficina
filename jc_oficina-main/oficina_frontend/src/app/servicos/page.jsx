@@ -24,7 +24,7 @@ export default function Servicos() {
 
         const fetchServicos = async () => {
             try {
-                const response = await fetch("http://localhost:8000/servicos", {
+                const response = await fetch("https://darkseagreen-mule-233162.hostingersite.com/api/servicos", {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -69,7 +69,7 @@ export default function Servicos() {
             }
         
             try {
-                const response = await fetch("http://localhost:8000/servicos", {
+                const response = await fetch("https://darkseagreen-mule-233162.hostingersite.com/api/servicos", {
                     method: "POST",
                     headers: {
                         // Não é necessário definir Content-Type quando usamos FormData
@@ -112,7 +112,7 @@ export default function Servicos() {
             }
 
 
-            const response = await fetch(`http://localhost:8000/servicos/${currentServiceId}`, {
+            const response = await fetch(`https://darkseagreen-mule-233162.hostingersite.com/api/servicos/${currentServiceId}`, {
                 method: "POST",
                 body: formData,
 
@@ -143,7 +143,7 @@ export default function Servicos() {
         if (!confirm("Tem certeza que deseja excluir este serviço?")) return;
 
         try {
-            const response = await fetch(`http://localhost:8000/servicos/${id}`, {
+            const response = await fetch(`https://darkseagreen-mule-233162.hostingersite.com/api/servicos/${id}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
@@ -222,18 +222,18 @@ export default function Servicos() {
                                 placeholder="Nome do Serviço"
                                 value={nome}
                                 onChange={(e) => setNome(e.target.value)}
-                                className="w-full p-2 border mb-2"
+                                className="w-full p-2 border mb-2 text-black"
                             />
                             <textarea
                                 placeholder="Descrição do Serviço"
                                 value={descricao}
                                 onChange={(e) => setDescricao(e.target.value)}
-                                className="w-full p-2 border mb-2"
+                                className="w-full p-2 border mb-2 text-black"
                             ></textarea>
                             <select
                                 value={categoria}
                                 onChange={(e) => setCategoria(e.target.value)}
-                                className="w-full p-2 border mb-2"
+                                className="w-full p-2 border mb-2 text-black"
                             >
                                 <option value="">Selecione a Categoria</option>
                                 <option value="diagnósticos">Diagnósticos</option>
@@ -244,7 +244,7 @@ export default function Servicos() {
                             <input
                                 type="file"
                                 onChange={(e) => setImagem(e.target.files[0])}
-                                className="w-full p-2 border mb-2"
+                                className="w-full p-2 border mb-2 text-black"
                             />
                             <div className="flex justify-between">
                                 <button
@@ -270,7 +270,7 @@ export default function Servicos() {
                             {servico.imagem && (
                                 <div className="w-full">
                                     <Image
-                                        src={`http://localhost:8000${servico.imagem}`}  // Remove a lógica extra
+                                        src={`https://darkseagreen-mule-233162.hostingersite.com/api${servico.imagem}`}  // Remove a lógica extra
                                         alt={servico.nome}
                                         width={200}
                                         height={200}

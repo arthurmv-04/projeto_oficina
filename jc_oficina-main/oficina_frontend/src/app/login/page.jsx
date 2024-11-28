@@ -11,6 +11,7 @@ export default function Login() {
     const [senha, setSenha] = useState("");
     const [errorMessage, setErrorMessage] = useState(""); // Para armazenar a mensagem de erro
 
+
     const router = useRouter(); // Instanciar o useRouter
 
     const handleLogin = async (e) => {
@@ -20,7 +21,7 @@ export default function Login() {
         const loginData = { email, senha };
 
         try {
-            const response = await fetch("http://localhost:8000/login", {
+            const response = await fetch("https://darkseagreen-mule-233162.hostingersite.com/api/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

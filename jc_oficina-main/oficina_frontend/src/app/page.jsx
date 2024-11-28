@@ -41,7 +41,7 @@ export default function Homepage(){
 
 
     const handleToggle = (index) => {
-      
+        // Alterna entre abrir/fechar o item
         setActiveIndex(activeIndex === index ? null : index);
       };
 
@@ -71,7 +71,7 @@ export default function Homepage(){
     const fetchServicos = async (categoria = "todos") => {
         try {
             // Determina a URL base
-            let url = "http://localhost:8000/servicos";
+            let url = "https://darkseagreen-mule-233162.hostingersite.com/api/servicos";
         
             // Se a categoria não for 'todos', adiciona o parâmetro na URL
             if (categoria !== "todos") {
@@ -112,7 +112,7 @@ export default function Homepage(){
 
     const fetchComentarios = async () => {
         try {
-            const response = await fetch('http://localhost:8000/comentarios');
+            const response = await fetch('https://darkseagreen-mule-233162.hostingersite.com/api/comentarios');
             if (!response.ok) {
                 throw new Error(`Erro ao buscar comentários: ${response.statusText}`);
             }
@@ -129,7 +129,7 @@ export default function Homepage(){
         if (!confirmDelete) return;
 
         try {
-            const response = await fetch(`http://localhost:8000/comentarios/${id}`, {
+            const response = await fetch(`https://darkseagreen-mule-233162.hostingersite.com/api/comentarios/${id}`, {
                 method: "DELETE",
             });
             if (!response.ok) {
@@ -153,7 +153,7 @@ export default function Homepage(){
         };
 
         try {
-            const response = await fetch('http://localhost:8000/comentarios', options);
+            const response = await fetch('https://darkseagreen-mule-233162.hostingersite.com/api/comentarios', options);
             if (!response.ok) {
                 throw new Error(`Erro: ${response.statusText}`);
             }
@@ -283,7 +283,7 @@ export default function Homepage(){
                             {servicos.map((servico) => (
                                 <li key={servico.id} className="">
                                     <Image
-                                        src={`http://localhost:8000${servico.imagem}`}  // Corrigido
+                                        src={`https://darkseagreen-mule-233162.hostingersite.com/api${servico.imagem}`} 
                                         alt={servico.nome}
                                         width={200}
                                         height={200}
